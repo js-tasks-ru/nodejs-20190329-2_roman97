@@ -1,11 +1,9 @@
 const LineSplitStream = require('./LineSplitStream');
 const os = require('os');
 
-// const lines = new LineSplitStream({
-//   encoding: 'utf-8',
-// });
-
-const lines = new LineSplitStream();
+const lines = new LineSplitStream({
+  encoding: 'utf-8',
+});
 
 function onData(line) {
   console.log(line);
