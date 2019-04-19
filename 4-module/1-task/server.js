@@ -9,8 +9,6 @@ server.on('request', (req, res) => {
   const pathname = url.parse(req.url).pathname.slice(1);
 
   const filepath = path.join(__dirname, 'files', pathname);
-  console.log('pathname  --  ', pathname);
-  console.log('filepath  --  ', filepath);
 
   switch (req.method) {
     case 'GET':
