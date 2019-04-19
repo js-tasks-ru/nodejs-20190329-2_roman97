@@ -1,6 +1,7 @@
 const url = require('url');
 const http = require('http');
 const path = require('path');
+const fs = require('fs');
 
 const server = new http.Server();
 
@@ -11,6 +12,41 @@ server.on('request', (req, res) => {
 
   switch (req.method) {
     case 'DELETE':
+      if (['/', '..'].includes(pathname)) {
+        res.statusCode = 400;
+        res.end('Bad request');
+      }
+
+      const readStream = fs.createReadStream(filepath);
+
+      readStream.pipe(res);
+
+      readStream.on('error', (error) => {
+        if (error.code === 'ENOENT') {
+          res.statusCode = 404;
+          res.end('Not such file');
+        }
+
+        res.statusCode = 500;
+        res.end('Server error');
+      });
+
+      readStream.on('end', () => {
+        fs.unlink(filepath, (error) => {
+          if (error) {
+            res.statusCode = 500;
+            res.end('Server error');
+          }
+
+          res.statusCode = 200;
+          res.end('success');
+        });
+      });
+
+      res.on('close', () => {
+        if (res.finished) return;
+        readStream.destroy();
+      });
 
       break;
 
