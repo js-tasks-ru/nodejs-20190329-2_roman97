@@ -9,4 +9,4 @@ mongoose.set('useCreateIndex', true);
 
 mongoose.plugin(beautifyUnique);
 
-module.exports = mongoose.createConnection(get(config, 'mongodb.uri'),);
+module.exports = mongoose.createConnection(get(config, 'mongodb.uri'));
