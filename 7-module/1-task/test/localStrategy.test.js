@@ -9,44 +9,19 @@ const users = require('../fixtures/users');
 
 describe('7-module-1-task', () => {
   describe('passport local strategy', function () {
-    // before(async () => {
-    //   await User.deleteMany();
-    //
-    //   for (const user of users) {
-    //     const u = new User(user);
-    //     await u.setPassword(user.password);
-    //     await u.save();
-    //   }
-    // });
-    //
-    // after(async () => {
-    //   await User.deleteMany({});
-    //   connection.close();
-    // });
-    before((done) => {
-      User.deleteMany()
-        .then(() => {
-          for (const [index, user] of users.entries()) {
-            const u = new User(user);
-            u.setPassword(user.password)
-              .then(() => {
-                return u.save();
-              })
-              .then(() => {
-                if (index === users.length - 1) {
-                  done();
-                }
-              });
-          }
-        });
+    before(async () => {
+      await User.deleteMany();
+
+      for (const user of users) {
+        const u = new User(user);
+        await u.setPassword(user.password);
+        await u.save();
+      }
     });
 
-    after((done) => {
-      User.deleteMany({})
-        .then(() => {
-          connection.close();
-          done();
-        });
+    after(async () => {
+      await User.deleteMany({});
+      connection.close();
     });
     
     it('поле usernameField должно должно содержать email', () => {
