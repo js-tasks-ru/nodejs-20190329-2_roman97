@@ -11,14 +11,14 @@ describe('7-module-1-task', () => {
   describe('passport local strategy', function () {
     before(async () => {
       await User.deleteMany();
-
+      
       for (const user of users) {
         const u = new User(user);
         await u.setPassword(user.password);
         await u.save();
       }
     });
-    
+
     after(async () => {
       await User.deleteMany({});
       connection.close();
