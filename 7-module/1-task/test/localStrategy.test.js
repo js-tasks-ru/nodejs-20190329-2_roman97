@@ -18,7 +18,7 @@ describe('7-module-1-task', () => {
         await u.save();
       }
     });
-
+    
     after(async () => {
       await User.deleteMany({});
       connection.close();
